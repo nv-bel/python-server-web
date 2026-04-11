@@ -25,16 +25,14 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((HOST, PORT))
 server.listen(1)
 
-print(f"Servidor rodando em http://{HOST}:{PORT}")
+print(f"Servidor HTTP rodando em http://{HOST}:{PORT}")
 
 while True:
     # aceita conexão do navegador
     client, addr = server.accept()
-    print(f"\nConexão de {addr}")
 
     # recebe a requisição HTTP
     request = client.recv(4096).decode()
-    print(request)
 
     # separa header e body
     parts = request.split("\r\n\r\n")
@@ -67,6 +65,7 @@ while True:
 
             # se encontrou, mostra os dados
             if encontrado:
+                print(f"[GET - {addr}] Busca por id={id_busca} -> encontrado")
                 resultado_html = f"""
                 <div class="result success">
                     <p><strong>ID:</strong> {encontrado['id']}</p>
@@ -75,6 +74,7 @@ while True:
                 </div>
                 """
             else:
+                print(f"[GET - {addr}] Busca por id={id_busca} -> nao encontrado")
                 resultado_html = "<p> Nao encontrado</p>"
         else:
             resultado_html = "<p>Use ?id=1</p>"
@@ -212,6 +212,8 @@ while True:
         # salva no arquivo
         salvar_dados(dados)
 
+        print(f"[POST - {addr}] Usuario cadastrado -> id={novo_id}, nome={nome}, idade={idade}")
+
         # resposta após cadastro
         response_body = f"""
 <html>
@@ -272,6 +274,7 @@ while True:
 """
 
     else:
+        print(f"[ERRO] Metodo nao suportado: {method}")
         response_body = "<h1>Método nao suportado</h1>"
 
     # monta resposta HTTP
