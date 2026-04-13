@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Usuários</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema</h1>
+        <p>Buscar usuário por ID</p>
+
+        {{ resultado_html }}
+
+        <form method="GET">
+            <input name="id" placeholder="Digite o ID (ex: 1)">
+            <button>Buscar</button>
+        </form>
+
+        <h2>Cadastrar novo usuário</h2>
+
+        <form method="POST">
+            <input name="nome" placeholder="Nome">
+            <input name="idade" placeholder="Idade">
+            <button>Cadastrar</button>
+        </form>
+    </div>
+</body>
+</html>
