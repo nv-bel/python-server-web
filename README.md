@@ -1,70 +1,65 @@
-# Servidor Web em Python
+﻿# Servidor Web em Python
 
 Servidor Web desenvolvido em Python para a disciplina Redes II (AV1).
 
 ## Descrição
 
-Este projeto implementa um servidor HTTP simples utilizando a biblioteca padrão do Python (`http.server`). O servidor oferece endpoints para testes de conectividade, echo de mensagens e cálculo de somas.
+Este projeto implementa um servidor HTTP simples com socket TCP e roteamento manual. O servidor exibe uma interface web para buscar usuários por ID (GET) e cadastrar novos usuários (POST).
 
 ## Funcionalidades
 
-- **GET /ping** - Verifica se o servidor está respondendo
-- **GET /echo** - Retorna uma mensagem de cumprimento (com parâmetro opcional `name`)
-- **POST /echo** - Retorna a mensagem recebida no corpo da requisição
-- **POST /sum** - Calcula a soma de números recebidos
+- **GET /** - Página principal com formulário para buscar usuário por ID e cadastrar um novo usuário
+- **GET /** com `?id=<valor>` - Busca um usuário existente em `data/dados.json`
+- **POST /** - Recebe dados de formulário (`nome`, `idade`) e salva um novo usuário em `data/dados.json`
+- **GET /static/styles.css** - Serve o CSS da interface
 
 ## Como Executar
 
 ### 1. Iniciar o servidor
 
 ```bash
-python http_server.py
+python app.py
 ```
 
-O servidor estará disponível em `http://localhost:8080`
+O servidor estará disponível em `http://127.0.0.1:8080`.
 
-## Testando os Endpoints
+## Testando a Aplicação
 
-### GET /ping
+### Acessar a página principal
 
-```bash
-curl http://localhost:8080/ping
+Abra no navegador:
+
+```text
+http://127.0.0.1:8080/
 ```
 
-Ou direto no navegador: http://localhost:8080/ping
+### Buscar usuário por ID
 
-### GET /echo com parâmetro
+No navegador, use a URL:
 
-```bash
-curl "http://localhost:8080/echo?name=Python"
+```text
+http://127.0.0.1:8080/?id=1
 ```
 
-Ou direto no navegador: http://localhost:8080/echo?name=Mundo
+### Cadastrar novo usuário
 
-### POST /echo
+Na página principal, use o formulário de cadastro com os campos `nome` e `idade`.
 
-```bash
-curl -X POST http://localhost:8080/echo \
-     -H "Content-Type: application/json" \
-     -d '{"mensagem": "olá"}'
-```
+## Estrutura do Projeto
 
-### POST /sum
-
-```bash
-curl -X POST http://localhost:8080/sum \
-     -H "Content-Type: application/json" \
-     -d '{"numbers": [1, 2, 3, 4, 5]}'
-```
-
-## Estrutura
-
-- `http_server.py` - Arquivo principal com a implementação do servidor
+- `app.py` - Inicializa o servidor TCP e processa as requisições
+- `routes.py` - Lógica de roteamento, renderização de templates e resposta HTTP
+- `storage.py` - Funções para carregar e salvar dados em `data/dados.json`
+- `templates/` - Templates HTML para a página principal e confirmação de cadastro
+- `static/` - Arquivos estáticos, como o CSS
+- `data/dados.json` - Armazena os usuários cadastrados
 
 ## Requisitos
 
 - Python 3.x
 
-## Notas
+## Observações
 
-O servidor utiliza a porta 8080 e escuta em todos os endereços disponíveis (0.0.0.0). Os logs das requisições são exibidos no terminal durante a execução.
+- A pasta `old_http_server/` não faz parte da implementação atual e deve ser desconsiderada.
+- O servidor utiliza a porta `8080` e responde em `127.0.0.1`.
+- Os acessos e ações são logados no terminal durante a execução.
